@@ -15,7 +15,7 @@ export interface Song {
 
 @Injectable({ providedIn: 'root' })
 export class SongService {
-  private api = 'https://soundwave.onrender.com/api';
+  private api = 'https://soundwave-b9rq.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 

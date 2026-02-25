@@ -12,7 +12,7 @@ export interface AuthUser {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private api = 'https://soundwave.onrender.com/api';
+  private api = 'https://soundwave-b9rq.onrender.com/api';
   currentUser = signal<AuthUser | null>(this.loadUser());
 
   constructor(private http: HttpClient, private router: Router) {}

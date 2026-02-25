@@ -26,7 +26,7 @@ export interface AppUser {
 
 @Injectable({ providedIn: 'root' })
 export class HistoryService {
-  private api = 'https://soundwave.onrender.com/api';
+  private api = 'https://soundwave-b9rq.onrender.com/api';
   constructor(private http: HttpClient) {}
   getHistory() { return this.http.get<PlayHistory[]>(`${this.api}/history`); }
   clearHistory() { return this.http.delete(`${this.api}/history`); }
@@ -34,7 +34,7 @@ export class HistoryService {
 
 @Injectable({ providedIn: 'root' })
 export class PlaylistService {
-  private api = 'https://soundwave.onrender.com/api';
+  private api = 'https://soundwave-b9rq.onrender.com/api';
   constructor(private http: HttpClient) {}
   getAll() { return this.http.get<Playlist[]>(`${this.api}/playlists`); }
   create(name: string) { return this.http.post<Playlist>(`${this.api}/playlists`, { name }); }
@@ -45,7 +45,7 @@ export class PlaylistService {
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private api = 'https://soundwave.onrender.com/api';
+  private api = 'https://soundwave-b9rq.onrender.com/api';
   constructor(private http: HttpClient) {}
   getAll() { return this.http.get<AppUser[]>(`${this.api}/users`); }
 }
