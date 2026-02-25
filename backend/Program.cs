@@ -6,9 +6,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ================= DATABASE =================
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlite("Data Source=spotify.db"));
 
+// ================= JWT AUTH =================
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
     {
@@ -20,7 +22,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            )
         };
     });
 
@@ -29,25 +33,38 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors(opt =>
-    opt.AddPolicy("AllowAngular", policy =>
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()));
+// ================= CORS FIX =================
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:4200",                        // Local Angular
+                "https://sound-wave-kappa.vercel.app"           // Your Vercel URL
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
-// Auto-migrate and seed DB
+// ================= DATABASE INIT =================
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
 }
 
+// ================= MIDDLEWARE =================
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseCors("AllowAngular");
+
+// VERY IMPORTANT: CORS must come BEFORE auth
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
