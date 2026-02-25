@@ -38,12 +38,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:4200",                        // Local Angular
-                "https://sound-wave-kappa.vercel.app"           // Your Vercel URL
-            )
+        policy
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .SetIsOriginAllowed(origin =>
+                origin.StartsWith("https://sound-wave") ||
+                origin.StartsWith("http://localhost:4200")
+            );
     });
 });
 
