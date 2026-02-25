@@ -1,9 +1,13 @@
-# 🎵 Spotify Clone — Full Stack App
+# 🎵 SoundWave - Spotify Clone 
 
 ## Tech Stack
 - **Backend**: ASP.NET Core 8 Web API (SQLite, JWT, BCrypt)
 - **Frontend**: Angular 17 (Standalone Components, Signals)
 - **DB**: SQLite (auto-created on first run)
+
+---
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://sound-wave-kappa.vercel.app)
 
 ---
 
