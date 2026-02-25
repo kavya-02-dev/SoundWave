@@ -1,0 +1,17 @@
+# Angular
+frontend/node_modules
+frontend/.angular
+frontend/dist
+
+# .NET
+backend/bin
+backend/obj
+
+# SQLite database
+backend/*.db
+
+# Visual Studio
+.vs
+
+# Logs
+*.log
